@@ -1,0 +1,18 @@
+{
+  "name": "book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server/app.js"
+  },
+  "keywords": [
+    "图书管理"
+  ],
+  "author": "wanghongruigood@qq.com",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.4.1"
+  }
+}
