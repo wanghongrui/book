@@ -13,6 +13,7 @@
   "author": "wanghongruigood@qq.com",
   "license": "ISC",
   "dependencies": {
-    "koa": "^2.4.1"
+    "koa": "^2.4.1",
+    "koa-router": "^7.3.0"
   }
 }
