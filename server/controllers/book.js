@@ -1,5 +1,8 @@
+const bookService = require('./../services/book')
+
 module.exports = {
   async getBooks (ctx) {
-    ctx.body = 'Books'
+    let result = await bookService.getBooks()
+    ctx.body = result
   }
 }
