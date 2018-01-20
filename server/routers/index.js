@@ -1,7 +1,8 @@
 const router = require('koa-router')()
+const bookController = require('./../controllers/book')
 
-const api = require('./api')
+console.log(bookController)
 
-router.use('/', api.routes(), api.allowedMethods())
+const routers = router.get('/book', bookController.getBooks)
 
-module.exports = router
+module.exports = routers
