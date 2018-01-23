@@ -1,7 +1,7 @@
 const path = require('path')
 const Koa = require('koa')
 
-const config = require('./../config')
+const config = require('../config')
 
 const  app = new Koa()
 

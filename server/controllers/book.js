@@ -1,4 +1,4 @@
-const bookService = require('./../services/book')
+const bookService = require('../services/book')
 
 module.exports = {
   async getBooks (ctx) {

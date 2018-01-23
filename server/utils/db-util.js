@@ -1,6 +1,6 @@
 // import { debug } from 'util';
 
-const config = require('./../../config')
+const config = require('../../config')
 const mysql = require('mysql')
 
 const pool = mysql.createPool({
