@@ -2,7 +2,7 @@ let userService = require('../services/user')
 
 module.exports = {
   async signIn (ctx) {
-    let formData = ctx.request.header
+    let formData = ctx.request.body
     let result = {
       success: false,
       message: '',

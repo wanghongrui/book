@@ -14,8 +14,6 @@ const user = {
   },
 
   async signIn (formData) {
-    console.log('service')
-    console.log(formData)
     let resultData = await userModel.getOneByNameAndPassword({
       'name': formData.name,
       'password': formData.password
