@@ -77,6 +77,17 @@ module.exports = {
     ctx.body = result
   },
 
+  async signOut (ctx) {
+    let result = {
+      success: true,
+      message: '已注销登录',
+      content: null
+    }
+
+    ctx.session = {}
+    ctx.body = result
+  },
+
   async getUses (ctx) {
     let users = await userService.getUses()
     ctx.body = users

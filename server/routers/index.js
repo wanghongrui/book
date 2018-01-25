@@ -6,6 +6,7 @@ const routers = router
   .get('/book', bookController.getBooks)
   .post('/user', userController.signIn)
   .post('/user/create', userController.signUp)
+  .post('/user/signOut', userController.signOut)
   .post('/user/online', userController.online)
 
 module.exports = routers
