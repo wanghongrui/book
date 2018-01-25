@@ -22,19 +22,31 @@ const user = {
   },
 
   async getUserByName (name) {
-    let resultData = await userModel.getUserByName(username) || {}
-    return userInfo
+    let resultData = await userModel.getUserByName(name)
+    return resultData
   },
 
-  validatorSignUp (user) {
+  validatorSignUp (formData) {
     let result = {
       success: false,
       message: '',
     }
-    if (!user.name || !user.id) {
-      result.message = '用户信息不完整'
+
+    if (formData.source === 'web') {
+      if (!formData.role || !formData.password || !formData.name) {
+        result.message = '用户信息不完整'
+        return result
+      }
+    } else if (formData.source === 'wechat') {
+      if (!formData.id) {
+        result.message = '未设置用户id'
+        return result
+      }
+    } else {
+      result.message = '未知平台'
       return result
     }
+
     result.success = true
     return result
   }

@@ -12,8 +12,8 @@ const user = {
     return result
   },
 
-  async getExistOne (options) {
-    let _sql = `select * from user where id = '${option.id}' limit 1`
+  async getExistOne ({id}) {
+    let _sql = `select * from user where id = '${id}' limit 1`
     let result = await dbUtils.query(_sql)
     if (Array.isArray(result) && result.length > 0) {
       result = result[0]
@@ -23,8 +23,8 @@ const user = {
     return result
   },
 
-  async getOneByNameAndPassword (options) {
-    let _sql = `select * from user where name='${options.name}' and password='${options.password}' limit 1`
+  async getOneByNameAndPassword ({name, password}) {
+    let _sql = `select * from user where name='${name}' and password='${password}' limit 1`
     let result = await dbUtils.query(_sql)
     if (Array.isArray(result) && result.length > 0) {
       result = result[0]
@@ -35,7 +35,8 @@ const user = {
   },
 
   async getUserByName (name) {
-    let result = await dbUtils.select('user', ['id', 'name', 'role', 'gender'])
+    let _sql = `select * from user where name='${name}' limit 1`
+    let result = await dbUtils.query(_sql)
     if (Array.isArray(result) && result.length > 0) {
       result = result[0]
     } else {
