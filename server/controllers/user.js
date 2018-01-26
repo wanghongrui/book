@@ -77,6 +77,10 @@ module.exports = {
     ctx.body = result
   },
 
+  /**
+   * 注销登录
+   * @param {*} ctx 
+   */
   async signOut (ctx) {
     let result = {
       success: true,
@@ -88,11 +92,19 @@ module.exports = {
     ctx.body = result
   },
 
+  /**
+   * 获取所有用户
+   * @param {*} ctx 
+   */
   async getUses (ctx) {
     let users = await userService.getUses()
     ctx.body = users
   },
 
+  /**
+   * 是否在线
+   * @param {*} ctx 
+   */
   online (ctx) {
     let result = {
       success: false,

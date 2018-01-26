@@ -12,8 +12,8 @@ const book = {
     return result
   },
 
-  async getExistOne (options) {
-    let _sql = `select * from book where isbn = '${option.isbn}' limit 1`
+  async getExistOne ({isbn}) {
+    let _sql = `select * from book where isbn = '${isbn}' limit 1`
     let result = await dbUtils.query(_sql)
     if (Array.isArray(result) && result.length > 0) {
       result = result[0]
