@@ -1,55 +1,28 @@
-const userModel = require('../models/user')
+const UserModel = require('../models/index').UserModel
 
-const user = {
-  async create (user) {
-    let result = await userModel.create(user)
-    return result
-  },
-
-  async getExistOne (formData) {
-    let resultData = await userModel.getExistOne({
-      id: formData.id
-    })
-    return resultData
-  },
-
-  async signIn (formData) {
-    let resultData = await userModel.getOneByNameAndPassword({
-      'name': formData.name,
-      'password': formData.password
-    })
-    return resultData
-  },
-
-  async getUserByName (name) {
-    let resultData = await userModel.getUserByName(name)
-    return resultData
-  },
-
-  validatorSignUp (formData) {
-    let result = {
-      success: false,
-      message: '',
+module.exports = {
+  async signIn (openid) {
+    let user = await UserModel.findOne({openid: openid}).exec()
+    if (!user) {
+      user = new UserModel({openid})
+      user = await user.save()
     }
+    return user
+  },
 
-    if (formData.source === 'web') {
-      if (!formData.role || !formData.password || !formData.name) {
-        result.message = '用户信息不完整'
-        return result
-      }
-    } else if (formData.source === 'wechat') {
-      if (!formData.id) {
-        result.message = '未设置用户id'
-        return result
-      }
-    } else {
-      result.message = '未知平台'
-      return result
+  async deleteUser (openid) {
+    try {
+      await UserModel.remove({openid}, (err) => {
+        if (err) {
+          throw err
+        }
+      })
+    } catch (err) {
+      throw err
     }
-
-    result.success = true
-    return result
+  },
+  
+  async getUsers () {
+    return await UserModel.find().exec()
   }
 }
-
-module.exports = user

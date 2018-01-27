@@ -1,5 +1,11 @@
 let userService = require('../services/user')
 
+let result = {
+  success: false,
+  message: null,
+  content: null
+}
+
 module.exports = {
 
   /**
@@ -7,73 +13,55 @@ module.exports = {
    * @param {*} ctx 
    */
   async signIn (ctx) {
-    let formData = ctx.request.body
-    let result = {
-      success: false,
-      message: '',
-      content: null
-    }
+    let {openid} = ctx.request.body
 
-    let userResult = await userService.signIn(formData)
-    if (userResult) {
-      if (formData.name === userResult.name) {
+    let user = null
+    try {
+      user = await userService.signIn(openid)
+      
+      if (user) {
+        let session = ctx.session
+        session.openid = user.openid
+
         result.success = true
+        result.content = user
       } else {
-        result.message = '用户名或密码错误'
+        throw '注册异常'
       }
-    } else {
-      result.message = '用户不存在'
+    } catch (e) {
+      result.message = e
     }
-
-    if (formData.source === 'web' && result.success === true) {
-      let session = ctx.session
-      session.isLogin = true
-      session.name = userResult.name
-      session.userId = userResult.id
-    }
-
     ctx.body = result
   },
 
   /**
-   * 注册，支持web、WeChat
-   * @param {*} ctx 
+   * 获取所有用户
    */
-  async signUp (ctx) {
-    let formData = ctx.request.body
-    let result = {
-      success: false,
-      message: '',
-      content: null
-    }
-
-    let validateResult = userService.validatorSignUp(formData)
-    if (!validateResult.success) {
-      result = validateResult
-      ctx.body = result
-      return
-    }
-
-    let existOne = await userService.getUserByName(formData.name)
-    if (existOne) {
-      result.message = '用户已存在'
-      ctx.body = result
-      return
-    }
-
-    let userResult = await userService.create({
-      id: formData.id || Math.random().toString(36).substr(2),
-      name: formData.name,
-      password: formData.password || '',
-      role: formData.role || '',
-      source: formData.source
-    })
-
-    if (userResult) {
+  async getUsers (ctx) {
+    try {
+      result.content =  await userService.getUsers()
       result.success = true
-    } else {
-      result.message = '系统错误'
+    } catch (e) {
+      result.message = e
+      result.success = true
     }
+    ctx.body = result
+  },
+
+  /**
+   * 删除用户
+   */
+  async deleteUser (ctx) {
+    let openid = ctx.params.id
+
+    try {
+      await userService.deleteUser(openid)
+      result.success = true
+    } catch (e) {
+      result.success = false
+      result.message = e
+    }
+    
     ctx.body = result
   },
 
@@ -82,41 +70,7 @@ module.exports = {
    * @param {*} ctx 
    */
   async signOut (ctx) {
-    let result = {
-      success: true,
-      message: '已注销登录',
-      content: null
-    }
-
     ctx.session = {}
-    ctx.body = result
-  },
-
-  /**
-   * 获取所有用户
-   * @param {*} ctx 
-   */
-  async getUses (ctx) {
-    let users = await userService.getUses()
-    ctx.body = users
-  },
-
-  /**
-   * 是否在线
-   * @param {*} ctx 
-   */
-  online (ctx) {
-    let result = {
-      success: false,
-      message: '用户未登录',
-      content: null
-    }
-    
-    let session = ctx.session
-    if (session && session.isLogin) {
-      result.success = true
-      result.message = ''
-    }
     ctx.body = result
   }
 }
