@@ -4,12 +4,12 @@
 
 const BookModel = require('../models/index').BookModel
 
-module.exports = {
-  async getBooks () {
+class BookService {
+  static async getBooks () {
     return await BookModel.find().exec()
-  },
+  }
 
-  async addBook (options) {
+  static async addBook (options) {
     let book = new BookModel(options)
     try {
       book = await book.save()
@@ -17,11 +17,11 @@ module.exports = {
       book = null
     }
     return book
-  },
+  }
 
-  async deleteBook (id) {
+  static async deleteBook (_id) {
     try {
-      await BookModel.remove({_id: id}, (err) => {
+      await BookModel.remove({_id}, (err) => {
         if (err) {
           throw err
         }
@@ -30,4 +30,12 @@ module.exports = {
       throw err
     }
   }
+
+  static async getBook (isbn) {
+    let resp = await fetch(`https://api.douban.com/v2/book/isbn/${isbn}`)
+    let result = resp.json()
+    return result
+  }
 }
+
+module.exports = BookService

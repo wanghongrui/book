@@ -1,23 +1,23 @@
 /**
- * 操作层
+ * 操作层， 逻辑层
  */
 
 const bookService = require('../services/book')
 
-module.exports = {
-  async getBooks (ctx) {
+class BookController {
+  static async getBooks (ctx) {
     let result = await bookService.getBooks()
     ctx.body = result
-  },
+  }
 
-  async addBook (ctx) {
+  static async addBook (ctx) {
     let result = {
       success: false,
       message: null,
       content: null
     }
 
-    let book = await bookService.addBook(ctx.request.body)
+    let book = await bookService.add(ctx.request.body)
 
     if (book) {
       result.success = true
@@ -27,9 +27,9 @@ module.exports = {
     }
     
     ctx.body = result
-  },
+  }
   
-  async deleteBook (ctx) {
+  static async deleteBook (ctx) {
     let result = {
       success: false,
       message: null,
@@ -38,7 +38,7 @@ module.exports = {
 
     let id = ctx.params.id
     try {
-      await bookService.deleteBook(id)
+      await bookService.deleteById(id)
       result.success = true
     } catch (e) {
       result.success = false
@@ -46,5 +46,24 @@ module.exports = {
     }
     
     ctx.body = result
-  } 
+  }
+
+  static async getBook (ctx) {
+    let result = {
+      success: false,
+      message: null,
+      content: null
+    }
+
+    try {
+      let isbn = ctx.params.isbn
+      result.content = await bookService.getBook(isbn)
+      result.success = true
+    } catch (e) {
+      result.message = e
+    }
+    ctx.body = result
+  }
 }
+
+module.exports = BookController

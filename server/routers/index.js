@@ -1,5 +1,5 @@
 /**
- * 路由
+ * 接口层，路由
  */
 
 const router = require('koa-router')()
@@ -7,11 +7,12 @@ const bookController = require('../controllers/book')
 const userController = require('../controllers/user')
 
 const routers = router
-  .get('/book/all', bookController.getBooks)
-  .post('/book/add', bookController.addBook)
+  .get('/book', bookController.getBooks)
+  .post('/book', bookController.addBook)
+  .get('/book/:isbn', bookController.getBook)
   .delete('/book/:id', bookController.deleteBook)
-  .post('/user', userController.signIn)
   .get('/user/all', userController.getUsers)
+  .post('/user/add', userController.signIn)
   .delete('/user/:id', userController.deleteUser)
 
 module.exports = routers
