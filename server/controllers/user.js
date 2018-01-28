@@ -1,76 +1,45 @@
 let userService = require('../services/user')
 
-let result = {
-  success: false,
-  message: null,
-  content: null
-}
-
-module.exports = {
+class UserController {
 
   /**
    * 登录，只支持web端
    * @param {*} ctx 
    */
-  async signIn (ctx) {
+  static async signIn (ctx) {
     let {openid} = ctx.request.body
+    let content = await userService.signIn(openid)
 
-    let user = null
-    try {
-      user = await userService.signIn(openid)
-      
-      if (user) {
-        let session = ctx.session
-        session.openid = user.openid
-
-        result.success = true
-        result.content = user
-      } else {
-        throw '注册异常'
-      }
-    } catch (e) {
-      result.message = e
-    }
-    ctx.body = result
-  },
+    ctx.success({content})
+  }
 
   /**
    * 获取所有用户
    */
-  async getUsers (ctx) {
-    try {
-      result.content =  await userService.getUsers()
-      result.success = true
-    } catch (e) {
-      result.message = e
-      result.success = true
-    }
-    ctx.body = result
-  },
+  static async getUsers (ctx) {
+    let content =  await userService.getUsers()
+     
+    ctx.success({content})
+  }
 
   /**
    * 删除用户
    */
-  async deleteUser (ctx) {
+  static async deleteUser (ctx) {
     let openid = ctx.params.id
-
-    try {
-      await userService.deleteUser(openid)
-      result.success = true
-    } catch (e) {
-      result.success = false
-      result.message = e
-    }
+    await userService.deleteUser(openid)
     
-    ctx.body = result
-  },
+    ctx.success({content: '删除成功'})
+  }
 
   /**
    * 注销登录
    * @param {*} ctx 
    */
-  async signOut (ctx) {
+  static async signOut (ctx) {
     ctx.session = {}
-    ctx.body = result
+    ctx.success({content: '已注销登录'})
   }
 }
+
+module.exports = UserController

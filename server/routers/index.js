@@ -11,8 +11,8 @@ const routers = router
   .post('/book', bookController.addBook)
   .get('/book/:isbn', bookController.getBook)
   .delete('/book/:id', bookController.deleteBook)
-  .get('/user/all', userController.getUsers)
-  .post('/user/add', userController.signIn)
+  .get('/user', userController.getUsers)
+  .post('/user', userController.signIn)
   .delete('/user/:id', userController.deleteUser)
 
 module.exports = routers

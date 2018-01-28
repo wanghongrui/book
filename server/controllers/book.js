@@ -6,63 +6,28 @@ const bookService = require('../services/book')
 
 class BookController {
   static async getBooks (ctx) {
-    let result = await bookService.getBooks()
-    ctx.body = result
+    let content = await bookService.getBooks()
+    ctx.success({content})
   }
 
   static async addBook (ctx) {
-    let result = {
-      success: false,
-      message: null,
-      content: null
-    }
+    let content = await bookService.addBook(ctx.request.body)
 
-    let book = await bookService.add(ctx.request.body)
-
-    if (book) {
-      result.success = true
-      result.content = book
-    } else {
-      result.message = e
-    }
-    
-    ctx.body = result
+    ctx.success({content})
   }
   
   static async deleteBook (ctx) {
-    let result = {
-      success: false,
-      message: null,
-      content: null
-    }
-
     let id = ctx.params.id
-    try {
-      await bookService.deleteById(id)
-      result.success = true
-    } catch (e) {
-      result.success = false
-      result.message = e
-    }
-    
-    ctx.body = result
+    await bookService.deleteBook(id)
+  
+    ctx.success({content: '删除成功！'})
   }
 
   static async getBook (ctx) {
-    let result = {
-      success: false,
-      message: null,
-      content: null
-    }
-
-    try {
-      let isbn = ctx.params.isbn
-      result.content = await bookService.getBook(isbn)
-      result.success = true
-    } catch (e) {
-      result.message = e
-    }
-    ctx.body = result
+    let isbn = ctx.params.isbn
+    let content = await bookService.getBook(isbn)
+      
+    ctx.success({content})
   }
 }
 

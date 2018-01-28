@@ -10,28 +10,16 @@ class BookService {
   }
 
   static async addBook (options) {
-    let book = new BookModel(options)
-    try {
-      book = await book.save()
-    } catch (e) {
-      book = null
-    }
-    return book
+    let book = new BookModel(options)    
+    return await book.save()
   }
 
   static async deleteBook (_id) {
-    try {
-      await BookModel.remove({_id}, (err) => {
-        if (err) {
-          throw err
-        }
-      })
-    } catch (err) {
-      throw err
-    }
+    await BookModel.remove({_id})
   }
 
   static async getBook (isbn) {
+    console.log(fetch)
     let resp = await fetch(`https://api.douban.com/v2/book/isbn/${isbn}`)
     let result = resp.json()
     return result
