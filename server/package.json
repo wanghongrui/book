@@ -1,0 +1,25 @@
+{
+  "name": "book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server/app.js"
+  },
+  "keywords": [
+    "图书管理"
+  ],
+  "author": "wanghongruigood@qq.com",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-mysql-session": "0.0.2",
+    "koa-router": "^7.3.0",
+    "koa-session-minimal": "^3.0.4",
+    "mongoose": "^5.0.1",
+    "mysql": "^2.15.0",
+    "tracer": "^0.8.11"
+  }
+}
