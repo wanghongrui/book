@@ -10,8 +10,8 @@ class UserService {
     return user
   }
 
-  static async deleteUser (openid) {
-    await UserModel.remove({openid: openid}).exec()
+  static async deleteUser (id) {
+    await UserModel.deleteOne({_id: id})
   }
   
   static async getUsers () {

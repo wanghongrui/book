@@ -19,6 +19,7 @@
     "koa-router": "^7.3.0",
     "koa-session-minimal": "^3.0.4",
     "mongoose": "^5.0.1",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "tracer": "^0.8.11"
   }
 }

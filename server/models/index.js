@@ -3,14 +3,14 @@ const mongoose = require('../utils/db-util').mongoose
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  openid: String,
+  openid: {type: String, required: true},
   reading: Array,
   wish: Array,
   read: Array,
 })
 
 const bookSchema = new Schema({
-  isbn: String,
+  isbn: {type: String, required: true},
   status: {type: String, default: '未借出'},
   remark: String,
   date: { type: Date, default: Date.now }

@@ -5,11 +5,14 @@ const bodyParser = require('koa-bodyparser')
 const config = require('../config')
 
 const response = require('./middlewares/reponse')
+const error = require('./middlewares/error')
 
 const session = require('koa-session-minimal')
 const SessionStore = require('koa-mysql-session')
 
-const  app = new Koa()
+const routers = require('./routers/index')
+
+const app = new Koa()
 
 const sessionStoreConfig = {
   user: config.database.username,
@@ -26,8 +29,8 @@ app.use(session({
 app.use(bodyParser())
 
 app.use(response)
+app.use(error)
 
-const routers = require('./routers/index')
 app.use(routers.routes()).use(routers.allowedMethods())
 
 app.listen(config.port, () => {

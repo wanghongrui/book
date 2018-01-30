@@ -26,8 +26,8 @@ class UserController {
    * 删除用户
    */
   static async deleteUser (ctx) {
-    let openid = ctx.params.id
-    await userService.deleteUser(openid)
+    let id = ctx.params.id
+    await userService.deleteUser(id)
     
     ctx.success({content: '删除成功'})
   }
